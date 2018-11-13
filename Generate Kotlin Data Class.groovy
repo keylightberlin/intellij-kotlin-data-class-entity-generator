@@ -13,7 +13,7 @@ packageName = "de.keylight.subscription.products.entities"
 typeMapping = [
   (~/(?i)tinyint/)                  : "Boolean",
   (~/(?i)int/)                      : "Int",
-  (~/(?i)float|double|decimal|real/): "Number",
+  (~/(?i)float|double|decimal|real/): "BigDecimal",
   (~/(?i)datetime|timestamp/)       : "Date",
   (~/(?i)date/)                     : "Date",
   (~/(?i)time/)                     : "Time",
@@ -47,7 +47,7 @@ def generate(out, className, fields) {
       out.println "        @Id"
       out.println "        val ${it.name}: ${it.type} = 0,"
     } else {
-      out.println "        @Column${it.orgType == "text" ? "(columnDefinition=\"TEXT\")" : ""}"
+      out.println "        @Column${it.orgType == "text" ? "(columnDefinition=\"TEXT\", name=${col.getName()})" : "(name=${col.getName()})"}"
       out.println "        val ${it.name}: ${it.type}${it.nullable ? "?" : ""}${it == fields.last() ? "" : ","}"
     }
 
